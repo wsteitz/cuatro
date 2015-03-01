@@ -83,7 +83,11 @@ class Board:
         for num, row in enumerate(self.matrix):
             items = [num]
             for field in row:
-                items.append("%s\n\n%s\n%i" % (field.name, field.player, field.height))
+                if field.player is None:
+                    player_str = "-"
+                else:
+                    player_str = field.player.name
+                items.append("%s\n\n%s\n%i" % (field.name, player_str, field.height))
             table.add_row(items)
         return table.draw()
 
