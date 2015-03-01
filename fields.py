@@ -4,7 +4,7 @@ class Field:
     def __init__(self, name):
         self.name = name
         self.height = 0
-        self.player = None
+        self.player = "-"
         
     def place(self, player, dice):
         if self.fits(dice):

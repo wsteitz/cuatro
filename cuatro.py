@@ -56,9 +56,10 @@ class Board:
         
     def __repr__(self):
         table = Texttable()
-        table.set_cols_align(["c"] * len(self.matrix))
-        for row in self.matrix:
-            items = []
+        table.set_cols_align(["c"] * (len(self.matrix) + 1))
+        table.add_row([""] + [str(i) for i in range(len(self.matrix))])
+        for num, row in enumerate(self.matrix):
+            items = [num]
             for field in row:
                 items.append("%s\n\n%s\n%i" % (field.name, field.player, field.height))
             table.add_row(items)
@@ -139,7 +140,7 @@ class Human(Player):
     def place(self, dice, board):
         print board
         print dice
-        place = raw_input("where to place your stone ('x y')? ")
+        place = raw_input("where to place your stone ('row col')? ")
         place = [int(k) for k in place if k.isdigit()]
         return place[0], place [1]
         
