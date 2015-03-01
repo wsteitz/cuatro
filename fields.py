@@ -35,25 +35,25 @@ class CountField(Field):
 class ThreeOfAKind(CountField):
     
     def __init__(self):
-        CountField.__init__(self, "ThreeOfAKind", 3)
+        CountField.__init__(self, "3-of-a-kind", 3)
 
 
 class FourOfAKind(CountField):
     
     def __init__(self):
-        CountField.__init__(self, "FourOfAKind", 4)
+        CountField.__init__(self, "4-of-a-kind", 4)
 
 
-class FiveOfAKind(CountField):
+class Yahtzee(CountField):
     
     def __init__(self):
-        CountField.__init__(self, "FiveOfAKind", 5)
+        CountField.__init__(self, "Yahtzee", 5)
         
         
 class FullHouse(Field):
     
     def __init__(self):
-        Field.__init__(self, "FullHouse")
+        Field.__init__(self, "Full House")
     
     def fits(self, dice):
         if max(dice.counts.values()) == 3 and min(dice.counts.values()) == 2:
@@ -61,10 +61,10 @@ class FullHouse(Field):
         return False 
         
         
-class Street(Field):
+class Straight(Field):
     
     def __init__(self):
-        Field.__init__(self, "Street")
+        Field.__init__(self, "Straight")
     
     def fits(self, dice):
         s = set(dice.dices)
