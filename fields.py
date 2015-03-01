@@ -4,12 +4,12 @@ class Field:
     def __init__(self, name):
         self.name = name
         self.height = 0
-        self.player = "-"
+        self.player = None
         
     def place(self, player, dice):
         if self.fits(dice):
             self.height += 1
-            self.player = player.name
+            self.player = player
             return True
         return False
     

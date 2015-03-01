@@ -5,6 +5,8 @@ class Player:
     def __init__(self, name):
         self.name = name
         self.stones = 15
+        # the color is assigned by the Game, when the player is added.
+        self.color = None
 
     def play(self, *args):
         print "not implemented"

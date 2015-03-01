@@ -1,7 +1,7 @@
 from collections import defaultdict
 import random
 import copy
-from texttable import Texttable
+import texttable
 
 from fields import *
 from player import Human
@@ -77,7 +77,7 @@ class Board:
         return field.place(player, dice)
 
     def __repr__(self):
-        table = Texttable(max_width=120)
+        table = texttable.Texttable(max_width=120)
         table.set_cols_align(["c"] * (len(self.matrix) + 1))
         table.add_row([""] + [str(i) for i in range(len(self.matrix))])
         for num, row in enumerate(self.matrix):
@@ -89,12 +89,16 @@ class Board:
 
 
 class Game:
+    colors = ['blue', 'red', 'green', 'yellow']
+    max_players = 4
 
     def __init__(self):
         self.players = []
 
     def add_player(self, player):
-        self.players.append(player)
+        if len(self.players) < self.max_players:
+            self.players.append(player)
+            player.color = self.colors[len(self.players) - 1]
 
     def start(self):
         self.board = Board()
