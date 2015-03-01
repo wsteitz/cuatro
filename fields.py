@@ -10,6 +10,8 @@ class Field:
         if self.fits(dice):
             self.height += 1
             self.player = player.name
+            return True
+        return False
     
     def fits_height(self, dice):
         return 5 - self.height >= dice.throws

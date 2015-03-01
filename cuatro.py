@@ -52,7 +52,7 @@ class Board:
         
     def place(self, place, player, dice):
         field = self.matrix[place[0]][place[1]]
-        field.place(player, dice)
+        return field.place(player, dice)
         
     def __repr__(self):
         table = Texttable()
@@ -84,10 +84,17 @@ class Game:
     def loop(self):
         while True:
             self.rounds += 1
+            if not self.stones_left():
+                return None
             for player in self.players:
-                self.turn(player)
-                if self.is_finished():
-                    return player
+                if player.stones > 0:
+                    self.turn(player)
+                    if self.is_finished():
+                        return player
+    
+    def stones_left(self):
+        stones = sum([p.stones for p in self.players])
+        return stones > 0
                 
     def is_finished(self):
         print "not implemented"
@@ -109,14 +116,16 @@ class Game:
         dice.roll(keep)
         # ask player where to place the stone
         place = player.place(dice, board)
-        self.board.place(place, player, dice)
+        placed = self.board.place(place, player, dice)
+        if placed:
+            player.stones -= 1
         
-
 
 class Player:
     
     def __init__(self, name):
         self.name = name
+        self.stones = 15
         
     def play(self, *args):
         print "not implemented"
@@ -148,6 +157,6 @@ class Human(Player):
 if __name__ == "__main__":
     g = Game()
     g.add_player(Human("Adam"))
-    #g.add_player(Human("Eve"))
+    g.add_player(Human("Eve"))
     g.start()
     
