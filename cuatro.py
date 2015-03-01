@@ -4,34 +4,52 @@ import copy
 from texttable import Texttable
 
 from fields import *
+from player import Human
 
 
 class Dice:
+    """ Representation of the five dice
+
+    Attributes:
+      throws (int): How often the dice were rolled.
+      faces (list[int]): the current faces of the dice.
+      counts (dict[int->int]): occurances of each face value.
+
+    """
 
     def __init__(self):
         self.throws = 0
+        self.faces = [0, 0, 0, 0, 0]
+        self.counts = {}
 
     def roll(self, keep=None):
+        # making sure only existing faces are kept
+        keep = self.verify(keep)
+        # increase counter
         self.throws += 1
         if keep is not None:
             to_throw = 5 - len(keep)
         else:
             to_throw = 5
             keep = []
-        self.update(keep + [random.randint(1, 6) for i in range(to_throw)])
+        # update faces
+        self._update(keep + [random.randint(1, 6) for i in range(to_throw)])
 
-    def update(self, values):
-        self.dices = values
-        self.update_counts()
+    def _update(self, values):
+        """ updates the face values of the dice"""
+        self.faces = values
+        self._update_counts()
 
-    def update_counts(self):
+    def _update_counts(self):
+        """ update face counter """
         self.counts = defaultdict(int)
-        for num in self.dices:
+        for num in self.faces:
             self.counts[num] += 1
 
     def verify(self, keep):
+        """ verifies that keep only contains existing faces """
         verified = []
-        available = self.dices[:]
+        available = self.faces[:]
         for k in keep:
             if k in available:
                 verified.append(k)
@@ -39,7 +57,8 @@ class Dice:
         return verified
 
     def __repr__(self):
-        return " ".join([str(d) for d in sorted(self.dices)])
+        """ string representation """
+        return " ".join([str(d) for d in sorted(self.faces)])
 
 
 class Board:
@@ -80,29 +99,29 @@ class Game:
     def start(self):
         self.board = Board()
         self.rounds = 0
-        self.winner = self.loop()
+        self.winner = self._loop()
         print self.winner.name, "wins the game in", self.rounds, "rounds"
 
-    def loop(self):
+    def _loop(self):
         while True:
             self.rounds += 1
-            if not self.stones_left():
+            if not self._stones_left():
                 return None
             for player in self.players:
                 if player.stones > 0:
-                    self.turn(player)
-                    if self.is_finished():
+                    self._turn(player)
+                    if self._is_finished():
                         return player
 
-    def stones_left(self):
+    def _stones_left(self):
         stones = sum([p.stones for p in self.players])
         return stones > 0
 
-    def is_finished(self):
+    def _is_finished(self):
         print "not implemented"
         return False
 
-    def turn(self, player):
+    def _turn(self, player):
         # pass a copy of the original board, so the players cannot cheat
         board = copy.deepcopy(self.board)
         dice = Dice()
@@ -121,39 +140,6 @@ class Game:
         placed = self.board.place(place, player, dice)
         if placed:
             player.stones -= 1
-
-
-class Player:
-
-    def __init__(self, name):
-        self.name = name
-        self.stones = 15
-
-    def play(self, *args):
-        print "not implemented"
-        return []
-
-    def place(self, *args):
-        print "not implemented"
-
-
-class Human(Player):
-
-    def __init__(self, name):
-        Player.__init__(self, name)
-
-    def play(self, dice, board):
-        print board
-        print dice.throws, "\t", dice
-        keep = raw_input("which numbers do you want to keep? ")
-        return [int(k) for k in keep if k.isdigit()]
-
-    def place(self, dice, board):
-        print board
-        print dice
-        place = raw_input("where to place your stone ('row col')? ")
-        place = [int(k) for k in place if k.isdigit()]
-        return place[0], place [1]
 
 
 if __name__ == "__main__":
