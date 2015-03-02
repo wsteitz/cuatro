@@ -71,15 +71,59 @@ class Board:
                        [Two, Yahtzee(), FullHouse(), ThreeOfAKind(), FourOfAKind(), Straight()],
                        [ThreeOfAKind(), FourOfAKind(), Straight(), Four, Straight(), FullHouse()]
                       ]
+        self.size = len(self.matrix)
 
     def place(self, place, player, dice):
         field = self.matrix[place[0]][place[1]]
         return field.place(player, dice)
 
+    def _four_in_a_row_fields(self, fields):
+        count = 0
+        last = None
+        for field in fields:
+            if field.player is None:
+                count = 0
+            elif field.player == last or last is None:
+                count += 1
+                last = field.player
+            if count == 4:
+                return True
+        return False
+
+    def four_in_a_row(self):
+        # check rows
+        for fields in self._rows():
+            if self._four_in_a_row_fields(fields):
+                return True
+        # check cols
+        for fields in self._cols():
+            if self._four_in_a_row_fields(fields):
+                return True
+        # check diagonals 1
+        for fields in self._diagonals():
+            if len(fields) >= 4 and self._four_in_a_row_fields(fields):
+                return True
+        return False
+
+
+    def _cols(self):
+        for col in range(self.size):
+            yield [row[col] for row in self.matrix]
+
+    def _rows(self):
+        for row in self.matrix:
+            yield row
+
+    def _diagonals(self):
+        n = self.size
+        for y in range(self.size * 2 - 1):
+            yield [self.matrix[y - x][x] for x in range(n) if 0 <= y - x < n]
+            yield [self.matrix[y + x - n + 1][x] for x in range(n) if 0 <= y + x - n +1 < n]
+
     def __repr__(self):
         table = texttable.Texttable(max_width=120)
-        table.set_cols_align(["c"] * (len(self.matrix) + 1))
-        table.add_row([""] + [str(i) for i in range(len(self.matrix))])
+        table.set_cols_align(["c"] * (self.size + 1))
+        table.add_row([""] + [str(i) for i in range(self.size)])
         for num, row in enumerate(self.matrix):
             items = [num]
             for field in row:
@@ -118,16 +162,12 @@ class Game:
             for player in self.players:
                 if player.stones > 0:
                     self._turn(player)
-                    if self._is_finished():
+                    if self.board.four_in_a_row():
                         return player
 
     def _stones_left(self):
         stones = sum([p.stones for p in self.players])
         return stones > 0
-
-    def _is_finished(self):
-        print "not implemented"
-        return False
 
     def _turn(self, player):
         # pass a copy of the original board, so the players cannot cheat
@@ -152,7 +192,8 @@ class Game:
 
 if __name__ == "__main__":
     g = Game()
-    g.add_player(Human("Adam"))
+    #g.add_player(Human("Adam"))
     g.add_player(Human("Eve"))
+
     g.start()
 
