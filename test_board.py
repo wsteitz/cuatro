@@ -1,4 +1,4 @@
-from cuatro import Board
+from board import Board
 
 
 def test_four_in_a_row():

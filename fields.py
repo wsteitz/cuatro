@@ -68,7 +68,7 @@ class Straight(Field):
     
     def fits(self, dice):
         s = set(dice.faces)
-        if s == (1, 2, 3, 4, 5) or s == (2, 3, 4, 5, 6):
+        if s == set([1, 2, 3, 4, 5]) or s == set([2, 3, 4, 5, 6]):
             return self.fits_height(dice)
         return False 
 

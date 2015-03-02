@@ -16,3 +16,14 @@ def test_one():
     assert One.fits(d) == True
     d._update([1, 1, 1, 1, 1])
     assert One.fits(d) == True
+
+
+def test_straigh():
+    d = Dice()
+    straight = Straight()
+    d._update([1, 2, 3, 4, 4])
+    assert straight.fits(d) == False
+    d._update([1, 2, 3, 4, 5])
+    assert straight.fits(d) == True
+    d._update([6, 2, 3, 4, 5])
+    assert straight.fits(d) == True
