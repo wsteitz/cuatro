@@ -18,7 +18,7 @@ def test_one():
     assert One.fits(d) == True
 
 
-def test_straigh():
+def test_straight():
     d = Dice()
     straight = Straight()
     d._update([1, 2, 3, 4, 4])

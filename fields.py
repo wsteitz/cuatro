@@ -91,5 +91,3 @@ Three = NumberField("Threes", 3)
 Four = NumberField("Fours", 4)
 Five = NumberField("Fives", 5)
 Six = NumberField("Sixes", 6)
-
-
