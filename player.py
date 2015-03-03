@@ -31,6 +31,7 @@ class Human(Player):
     def place(self, dice, board):
         print board
         print dice
-        place = raw_input("where to place your stone ('row col')? ")
-        place = [int(k) for k in place if k.isdigit()]
-        return place[0], place [1]
+        place = ""
+        while len(place) != 2:
+            place = raw_input("where to place your stone? ").upper()
+        return place

@@ -5,6 +5,8 @@ import texttable
 
 class Board:
 
+    col_map = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5}
+
     def __init__(self):
         self.matrix = [[FullHouse(), ThreeOfAKind(), FourOfAKind(), Straight(), One, ThreeOfAKind()],
                        [Straight(), Six, ThreeOfAKind(), FullHouse(), Yahtzee(), FourOfAKind()],
@@ -15,9 +17,16 @@ class Board:
                       ]
         self.size = len(self.matrix)
 
-    def place(self, place, player, dice):
-        field = self.matrix[place[0]][place[1]]
+    def place(self, loc, player, dice):
+        row, col = self._parse_location(loc)
+        field = self.matrix[row][col]
         return field.place(player, dice)
+
+    def _parse_location(self, loc):
+        a, b = loc[0], loc[1]
+        if b.isdigit():
+            a, b = b, a
+        return int(a), self.col_map[b]
 
     def _four_in_a_row_fields(self, fields):
         count = 0
@@ -65,7 +74,7 @@ class Board:
     def __repr__(self):
         table = texttable.Texttable(max_width=120)
         table.set_cols_align(["c"] * (self.size + 1))
-        table.add_row([""] + [str(i) for i in range(self.size)])
+        table.add_row(["", "A", "B", "C", "D", "E", "F"])
         for num, row in enumerate(self.matrix):
             items = [num]
             for field in row:
@@ -76,5 +85,3 @@ class Board:
                 items.append("%s\n\n%s\n%i" % (field.name, player_str, field.height))
             table.add_row(items)
         return table.draw()
-
-
