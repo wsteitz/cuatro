@@ -81,17 +81,17 @@ class Game:
     def _loop(self):
         while True:
             self.rounds += 1
-            if not self._stones_left():
+            if not self._pieces_left():
                 return None
             for player in self.players:
-                if player.stones > 0:
+                if player.pieces > 0:
                     self._turn(player)
                     if self.board.four_in_a_row():
                         return player
 
-    def _stones_left(self):
-        stones = sum([p.stones for p in self.players])
-        return stones > 0
+    def _pieces_left(self):
+        pieces = sum([p.pieces for p in self.players])
+        return pieces > 0
 
     def _turn(self, player):
         # pass a copy of the original board, so the players cannot cheat
@@ -107,11 +107,11 @@ class Game:
                 break
         # last roll, nothing for the player to decide
         dice.roll(keep)
-        # ask player where to place the stone
+        # ask player where to place his/her piece
         place = player.place(dice, board)
         placed = self.board.place(place, player, dice)
         if placed:
-            player.stones -= 1
+            player.pieces -= 1
 
 
 if __name__ == "__main__":
