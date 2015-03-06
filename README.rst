@@ -1,4 +1,4 @@
-|Build Status|
+|Build Status| |Coverage|
 
 
 cuatro
@@ -25,5 +25,8 @@ Todo
 
 .. |Build Status| image:: https://travis-ci.org/wsteitz/cuatro.svg?branch=master
     :target: https://travis-ci.org/wsteitz/cuatro
+
+.. |Coverage| image:: https://coveralls.io/repos/wsteitz/cuatro/badge.svg?branch=master 
+    :target: https://coveralls.io/r/wsteitz/cuatro
 
 .. _Cuatro: http://boardgamegeek.com/boardgame/149863/cuatro

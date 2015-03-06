@@ -4,5 +4,9 @@ python:
 install: 
   - pip install --upgrade pip
   - pip install -r requirements.txt
+  - pip install -r requirements_tests.txt
+  - pip install coveralls
 script:  
-  - nosetests
+  - nosetests --with-coverage --cover-package=cuatro
+after_success:
+  - coveralls
