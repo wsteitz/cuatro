@@ -1,5 +1,5 @@
-from cuatro import Dice
-from fields import *
+from cuatro.dice import Dice
+from cuatro.fields import *
 
 
 def test_one():

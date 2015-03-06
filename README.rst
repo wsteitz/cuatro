@@ -1,5 +1,3 @@
-
-
 |Build Status|
 
 
@@ -13,9 +11,9 @@ Yahtzee.
 Usage
 =====
 * install requirements
-    pip install -r requirements.txt
+        pip install -r requirements.txt
 * start the game
-    python cuatro.py
+        python cuatro.py
 
 
 Todo
