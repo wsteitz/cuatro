@@ -7,6 +7,7 @@ from dice import Dice
 class Game:
     colors = ['blue', 'red', 'green', 'yellow']
     max_players = 4
+    max_rounds = 15
 
     def __init__(self):
         self.players = []
@@ -18,24 +19,29 @@ class Game:
 
     def start(self):
         self.board = Board()
-        self.rounds = 0
         self.winner = self._loop()
-        print self.winner.name, "wins the game in", self.rounds, "rounds"
+        print self.winner.name, "wins the game in", self.round, "rounds"
 
     def _loop(self):
-        while True:
-            self.rounds += 1
-            if not self._pieces_left():
-                return None
+        for round in range(self.max_rounds):
+            self.round = round + 1
             for player in self.players:
-                if player.pieces > 0:
-                    self._turn(player)
-                    if self.board.four_in_a_row():
-                        return player
+                self._turn(player)
+                if self.board.four_in_a_row():
+                    return player
+        # if there is no winner after max_rounds, the game ends. The winner is determined by
+        # counting the houses...
+        return self._determine_winner()
 
-    def _pieces_left(self):
-        pieces = sum([p.pieces for p in self.players])
-        return pieces > 0
+    def _determine_winner(self):
+        points = {}
+        for player in self.players:
+            points[player] = 0
+        for field in self.board:
+            for i, player in enumerate(field.players):
+                points[player] += i + 1
+        # return the player with the most points
+        return points.keys()[points.values().index(max(points.values()))]
 
     def _turn(self, player):
         # pass a copy of the original board, so the players cannot cheat
@@ -53,7 +59,4 @@ class Game:
         dice.roll(keep)
         # ask player where to place his/her piece
         place = player.place(dice, board)
-        placed = self.board.place(place, player, dice)
-        if placed:
-            player.pieces -= 1
-
+        self.board.place(place, player, dice)

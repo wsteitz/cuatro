@@ -32,11 +32,11 @@ class Board:
         count = 0
         last = None
         for field in fields:
-            if field.player is None:
+            if field.top_player is None:
                 count = 0
-            elif field.player == last or last is None:
+            elif field.top_player == last or last is None:
                 count += 1
-                last = field.player
+                last = field.top_player
             if count == 4:
                 return True
         return False
@@ -78,10 +78,10 @@ class Board:
         for num, row in enumerate(self.matrix):
             items = [num]
             for field in row:
-                if field.player is None:
+                if field.top_player is None:
                     player_str = "-"
                 else:
-                    player_str = field.player.name
+                    player_str = field.top_player.name
                 items.append("%s\n\n%s\n%i" % (field.name, player_str, field.height))
             table.add_row(items)
         return table.draw()

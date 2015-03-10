@@ -4,7 +4,6 @@ class Player:
 
     def __init__(self, name):
         self.name = name
-        self.pieces = 15
         # the color is assigned by the Game, when the player is added.
         self.color = None
 
