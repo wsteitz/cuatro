@@ -1,8 +1,7 @@
-|Build Status| |Coverage|
-
-
 cuatro
 ======
+
+|Build Status| |Coverage|
 
 Console-based implementation of the board game Cuatro_. The game is a combination of Connect Four and
 Yahtzee.
@@ -26,7 +25,7 @@ Todo
 .. |Build Status| image:: https://travis-ci.org/wsteitz/cuatro.svg?branch=master
     :target: https://travis-ci.org/wsteitz/cuatro
 
-.. |Coverage| image:: https://coveralls.io/repos/wsteitz/cuatro/badge.svg?branch=master 
+.. |Coverage| image:: https://coveralls.io/repos/wsteitz/cuatro/badge.svg
     :target: https://coveralls.io/r/wsteitz/cuatro
 
 .. _Cuatro: http://boardgamegeek.com/boardgame/149863/cuatro
