@@ -11,6 +11,7 @@ class Game:
 
     def __init__(self):
         self.players = []
+        self.board = Board()
 
     def add_player(self, player):
         if len(self.players) < self.max_players:
@@ -37,11 +38,15 @@ class Game:
         points = {}
         for player in self.players:
             points[player] = 0
-        for field in self.board:
+        for field in self.board.fields():
             for i, player in enumerate(field.players):
                 points[player] += i + 1
         # return the player with the most points
-        return points.keys()[points.values().index(max(points.values()))]
+        max_points = max(points.values())
+        winners = [player for player, points in points.iteritems() if points == max_points]
+        if len(winners) == 1:
+            return winners[0]
+        return None
 
     def _turn(self, player):
         # pass a copy of the original board, so the players cannot cheat

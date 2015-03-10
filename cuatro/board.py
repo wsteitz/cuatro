@@ -8,12 +8,12 @@ class Board:
     col_map = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5}
 
     def __init__(self):
-        self.matrix = [[FullHouse(), ThreeOfAKind(), FourOfAKind(), Straight(), One, ThreeOfAKind()],
-                       [Straight(), Six, ThreeOfAKind(), FullHouse(), Yahtzee(), FourOfAKind()],
-                       [FourOfAKind(), FullHouse(), Yahtzee(), Straight(), ThreeOfAKind(), Three],
-                       [FullHouse(), Straight(), Five, FourOfAKind(), FullHouse(), ThreeOfAKind()],
-                       [Two, Yahtzee(), FullHouse(), ThreeOfAKind(), FourOfAKind(), Straight()],
-                       [ThreeOfAKind(), FourOfAKind(), Straight(), Four, Straight(), FullHouse()]
+        self.matrix = [[FullHouse(), ThreeOfAKind(), FourOfAKind(), Straight(), One(), ThreeOfAKind()],
+                       [Straight(), Six(), ThreeOfAKind(), FullHouse(), Yahtzee(), FourOfAKind()],
+                       [FourOfAKind(), FullHouse(), Yahtzee(), Straight(), ThreeOfAKind(), Three()],
+                       [FullHouse(), Straight(), Five(), FourOfAKind(), FullHouse(), ThreeOfAKind()],
+                       [Two(), Yahtzee(), FullHouse(), ThreeOfAKind(), FourOfAKind(), Straight()],
+                       [ThreeOfAKind(), FourOfAKind(), Straight(), Four(), Straight(), FullHouse()]
                       ]
         self.size = len(self.matrix)
 
@@ -55,7 +55,11 @@ class Board:
             if len(fields) >= 4 and self._four_in_a_row_fields(fields):
                 return True
         return False
-
+    
+    def fields(self):
+        for row in self.matrix:
+            for field in row:
+                yield field
 
     def _cols(self):
         for col in range(self.size):

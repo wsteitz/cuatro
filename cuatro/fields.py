@@ -3,21 +3,21 @@ class Field:
 
     def __init__(self, name):
         self.name = name
-        self.player = []
+        self.players = []
 
     @property
     def height(self):
-        return len(self.player)
+        return len(self.players)
 
     @property
     def top_player(self):
-        if len(self.player) == 0:
+        if len(self.players) == 0:
             return None
-        return self.player[-1]
+        return self.players[-1]
 
     def place(self, player, dice):
         if self.fits(dice):
-            self.player.append(player)
+            self.players.append(player)
             return True
         return False
 
@@ -93,9 +93,9 @@ class NumberField(Field):
         return False
 
 
-One = NumberField("Ones", 1)
-Two = NumberField("Twos", 2)
-Three = NumberField("Threes", 3)
-Four = NumberField("Fours", 4)
-Five = NumberField("Fives", 5)
-Six = NumberField("Sixes", 6)
+One = lambda: NumberField("Ones", 1)
+Two = lambda: NumberField("Twos", 2)
+Three = lambda: NumberField("Threes", 3)
+Four = lambda: NumberField("Fours", 4)
+Five = lambda: NumberField("Fives", 5)
+Six = lambda: NumberField("Sixes", 6)

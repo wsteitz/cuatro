@@ -4,18 +4,19 @@ from cuatro.fields import *
 
 def test_one():
     d = Dice()
+    one = One()
     d._update([2, 2, 2, 3, 4])
-    assert One.fits(d) == False
+    assert one.fits(d) == False
     d._update([1, 2, 2, 3, 4])
-    assert One.fits(d) == False
+    assert one.fits(d) == False
     d._update([1, 1, 2, 3, 4])
-    assert One.fits(d) == True
+    assert one.fits(d) == True
     d._update([1, 1, 1, 3, 4])
-    assert One.fits(d) == True
+    assert one.fits(d) == True
     d._update([1, 1, 1, 1, 4])
-    assert One.fits(d) == True
+    assert one.fits(d) == True
     d._update([1, 1, 1, 1, 1])
-    assert One.fits(d) == True
+    assert one.fits(d) == True
 
 
 def test_straight():
