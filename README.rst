@@ -1,7 +1,7 @@
+|Build Status| |Coverage|
+
 cuatro
 ======
-
-|Build Status| |Coverage|
 
 Console-based implementation of the board game Cuatro_. The game is a combination of Connect Four and
 Yahtzee.
