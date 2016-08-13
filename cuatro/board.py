@@ -1,6 +1,7 @@
 from fields import *
 
 import texttable
+from collections import defaultdict
 
 
 class Board:
@@ -16,17 +17,27 @@ class Board:
                        [ThreeOfAKind(), FourOfAKind(), Straight(), Four(), Straight(), FullHouse()]
                       ]
         self.size = len(self.matrix)
+        self._setup_fields()
 
     def place(self, loc, player, dice):
-        row, col = self._parse_location(loc)
-        field = self.matrix[row][col]
-        return field.place(player, dice)
+        if loc is not None:
+            row, col = self._parse_location(loc)
+            field = self.matrix[row][col]
+            return field.place(player, dice)
+        return False
+
+    def _setup_fields(self):
+        for i, row in enumerate(self.matrix):
+            for j, field in enumerate(row):
+                field.position = (i, j)
 
     def _parse_location(self, loc):
-        a, b = loc[0], loc[1]
-        if b.isdigit():
+        a, b = loc
+        if isinstance(a, int) and isinstance(b, int):
+            return a, b
+        elif b.isdigit():
             a, b = b, a
-        return int(a), self.col_map[b]
+            return int(a), self.col_map[b]
 
     def _four_in_a_row_fields(self, fields):
         count = 0
@@ -34,6 +45,7 @@ class Board:
         for field in fields:
             if field.top_player is None:
                 count = 0
+                lasat = None
             elif field.top_player == last or last is None:
                 count += 1
                 last = field.top_player
@@ -55,7 +67,7 @@ class Board:
             if len(fields) >= 4 and self._four_in_a_row_fields(fields):
                 return True
         return False
-    
+
     def fields(self):
         for row in self.matrix:
             for field in row:
